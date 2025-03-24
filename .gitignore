@@ -1,0 +1,4 @@
+obj
+dep
+libasm.a
+libasm_test
