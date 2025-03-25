@@ -3,16 +3,15 @@ section .text
 	global ft_strlen
 
 ft_strlen:
-	mov rax, 1        ; write(
-	mov rdi, 1        ;   STDOUT_FILENO,
-	mov rsi, msg      ;   "Hello, world!\n",
-	mov rdx, msglen   ;   sizeof("Hello, world!\n")
-	syscall           ; );
+	mov rax, rdi		; save str in rax
 
-	mov rax, 60       ; exit(
-	mov rdi, 0        ;   EXIT_SUCCESS
-	syscall           ; );
+loop_start:
+	cmp BYTE [rdi], 0	; test end of string
+	je loop_end			; while (str != 0) {
+	inc rdi				; 	str++
+	jmp loop_start		; }
+loop_end:
 
-section .rodata
-	msg: db "Hello, world!", 10
-	msglen: equ $ - msg
+	sub rdi, rax		; substract end of string with start of string
+	mov rax, rdi		; move result in rax
+	ret

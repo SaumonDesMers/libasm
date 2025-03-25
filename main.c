@@ -1,7 +1,10 @@
-void ft_strlen();
+#include <stdio.h>
+
+int ft_strlen(char *);
 
 int main()
 {
-	ft_strlen();
+	char * str = "Hello world!";
+	printf("%i\n", ft_strlen(str));
 	return 0;
 }

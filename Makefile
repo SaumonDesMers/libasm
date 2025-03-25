@@ -34,8 +34,8 @@ $(OBJ_DIR)/%.o:$(SRC_DIR)/%.s
 			@mkdir -p $(OBJ_DIR) $(DEP_DIR)
 			$(AS) $(ASFLAGS) -o $@ -MD -MF $(DEP_DIR)/$*.d $<
 
-$(TESTER_NAME): $(NAME)
-			$(CC) $(CFLAGS) -o $(TESTER_NAME) main.o -L. -lasm
+$(TESTER_NAME): $(NAME) main.c
+			$(CC) $(CFLAGS) -o $(TESTER_NAME) main.c -L. -lasm
 
 test: $(TESTER_NAME)
 			./$(TESTER_NAME)
