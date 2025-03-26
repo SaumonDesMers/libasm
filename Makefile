@@ -8,7 +8,7 @@ AS			:= nasm
 ASFLAGS		:= -f elf64 -g
 
 SRC_DIR		= src
-SRCS		= $(patsubst %, $(SRC_DIR)/%, strlen.s strcpy.s)
+SRCS		= $(patsubst %, $(SRC_DIR)/%, strlen.s strcpy.s strcmp.s)
 
 INC_DIR 	= include
 
