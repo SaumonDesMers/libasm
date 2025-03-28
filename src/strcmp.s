@@ -6,8 +6,6 @@ ft_strcmp:
 loop_start:
 	cmp BYTE [rdi], 0	;if (*s1 == 0)
 	je finish			;	goto finish
-	cmp BYTE [rsi], 0	;if (*s2 == 0)
-	je finish			;	goto finish
 	cmpsb				;if (*s1++ == *s2++)
 	je loop_start		;	goto loop_start
 
