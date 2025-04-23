@@ -9,11 +9,13 @@ size_t ft_strlen(const char *);
 char *ft_strcpy(char * dest, const char * src);
 int ft_strcmp(const char * s1, const char * s2);
 ssize_t ft_write(int fd, const void * buf, size_t count);
+ssize_t ft_read(int fd, void * buf, size_t count);
 
 
 #define test(tested_func, tester) \
 	printf("Testing \033[1;32m%s\033[0m...\n", #tested_func); \
 	tester(tested_func);
+
 
 void test_strlen(size_t (*test_func)(const char *))
 {
@@ -49,11 +51,6 @@ void test_write(ssize_t (*test_func)(int, const void *, size_t))
 	int err = errno;
 	printf("Wrote %d bytes to stdout with error code %d (%s)\n", ret, err, strerror(err));
 
-	errno = 0;
-	ret = test_func(-1, str, 14);
-	err = errno;
-	printf("Wrote %d bytes to invalid fd with error code %d (%s)\n", ret, err, strerror(err));
-
 	int fd = open("test.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
@@ -61,7 +58,7 @@ void test_write(ssize_t (*test_func)(int, const void *, size_t))
 		return;
 	}
 	errno = 0;
-	ret = test_func(fd, str, 14);
+	ret = test_func(fd, str, 13);
 	err = errno;
 	printf("Wrote %d bytes to file with error code %d (%s)\n", ret, err, strerror(err));
 	close(fd);
@@ -70,6 +67,11 @@ void test_write(ssize_t (*test_func)(int, const void *, size_t))
 	ret = test_func(fd, NULL, 14);
 	err = errno;
 	printf("Wrote %d bytes to NULL buffer with error code %d (%s)\n", ret, err, strerror(err));
+
+	errno = 0;
+	ret = test_func(-1, str, 14);
+	err = errno;
+	printf("Wrote %d bytes to invalid fd with error code %d (%s)\n", ret, err, strerror(err));
 
 	fd = open("test.txt", O_RDONLY);
 	if (fd < 0)
@@ -81,6 +83,49 @@ void test_write(ssize_t (*test_func)(int, const void *, size_t))
 	ret = test_func(fd, str, 14);
 	err = errno;
 	printf("Wrote %d bytes to read-only file with error code %d (%s)\n", ret, err, strerror(err));
+	close(fd);
+}
+
+void test_read(ssize_t (*test_func)(int, void *, size_t))
+{
+	char buf[50];
+	int fd = open("test.txt", O_RDONLY);
+	if (fd < 0)
+	{
+		perror("Failed to open file");
+		return;
+	}
+	buf[0] = '\0';
+	errno = 0;
+	ssize_t ret = test_func(fd, buf, sizeof(buf));
+	buf[ret] = '\0';
+	int err = errno;
+	printf("Read '%s' (%ld bytes) from file with error code %d (%s)\n", buf, ret, err, strerror(err));
+	close(fd);
+	
+	buf[0] = '\0';
+	errno = 0;
+	ret = test_func(fd, NULL, sizeof(buf));
+	err = errno;
+	printf("Read '%s' (%ld bytes) from NULL buffer with error code %d (%s)\n", buf, ret, err, strerror(err));
+
+	buf[0] = '\0';
+	errno = 0;
+	ret = test_func(-1, buf, sizeof(buf));
+	err = errno;
+	printf("Read '%s' (%ld bytes) from invalid fd with error code %d (%s)\n", buf, ret, err, strerror(err));
+
+	fd = open("test.txt", O_WRONLY, 0644);
+	if (fd < 0)
+	{
+		perror("Failed to open file");
+		return;
+	}
+	buf[0] = '\0';
+	errno = 0;
+	ret = test_func(fd, buf, sizeof(buf));
+	err = errno;
+	printf("Read '%s' (%ld bytes) from write-only file with error code %d (%s)\n", buf, ret, err, strerror(err));
 	close(fd);
 }
 
@@ -104,6 +149,11 @@ int main()
 	test(write, test_write);
 	printf("\n");
 	test(ft_write, test_write);
+	printf("\n\n");
+
+	test(read, test_read);
+	printf("\n");
+	test(ft_read, test_read);
 	printf("\n\n");
 
 	return 0;
