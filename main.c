@@ -10,6 +10,7 @@ char *ft_strcpy(char * dest, const char * src);
 int ft_strcmp(const char * s1, const char * s2);
 ssize_t ft_write(int fd, const void * buf, size_t count);
 ssize_t ft_read(int fd, void * buf, size_t count);
+char * ft_strdup(const char * src);
 
 
 #define test(tested_func, tester) \
@@ -129,6 +130,19 @@ void test_read(ssize_t (*test_func)(int, void *, size_t))
 	close(fd);
 }
 
+void test_strdup(char *(*test_func)(const char *))
+{
+	const char *str1 = "Hello, World!";
+	char *dup_str1 = test_func(str1);
+	printf("Duplicated string: '%s'\n", dup_str1);
+	free(dup_str1);
+	
+	const char *str2 = "";
+	char *dup_str2 = test_func(str2);
+	printf("Duplicated string: '%s'\n", dup_str2);
+	free(dup_str2);
+}
+
 int main()
 {
 	test(strlen, test_strlen);
@@ -154,6 +168,11 @@ int main()
 	test(read, test_read);
 	printf("\n");
 	test(ft_read, test_read);
+	printf("\n\n");
+
+	test(strdup, test_strdup);
+	printf("\n");
+	test(ft_strdup, test_strdup);
 	printf("\n\n");
 
 	return 0;
