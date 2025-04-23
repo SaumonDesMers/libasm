@@ -12,6 +12,8 @@ ssize_t ft_write(int fd, const void * buf, size_t count);
 ssize_t ft_read(int fd, void * buf, size_t count);
 char * ft_strdup(const char * src);
 
+int ft_atoi_base(char * str, char * base);
+
 
 #define test(tested_func, tester) \
 	printf("Testing \033[1;32m%s\033[0m...\n", #tested_func); \
@@ -143,6 +145,28 @@ void test_strdup(char *(*test_func)(const char *))
 	free(dup_str2);
 }
 
+
+
+void unit_test_atoi_base(char * str, char * base)
+{
+	int result = ft_atoi_base(str, base);
+	printf("Converted '%s' to %d in base '%s'\n", str, result, base);
+}
+
+void test_atoi_base()
+{
+	printf("Testing \033[1;32matoi_base\033[0m...\n");
+	unit_test_atoi_base(NULL, "0123456789");
+	unit_test_atoi_base("42", NULL);
+	unit_test_atoi_base("42", "+");
+	unit_test_atoi_base("42", "-");
+	unit_test_atoi_base("42", "oo");
+	unit_test_atoi_base("42", "v");
+	unit_test_atoi_base("42", "0123456789");
+	unit_test_atoi_base("101010", "01");
+}
+
+
 int main()
 {
 	test(strlen, test_strlen);
@@ -174,6 +198,8 @@ int main()
 	printf("\n");
 	test(ft_strdup, test_strdup);
 	printf("\n\n");
+
+	test_atoi_base();
 
 	return 0;
 }
