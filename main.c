@@ -177,6 +177,25 @@ void test_atoi_base()
 	unit_test_atoi_base("101010", "01");
 }
 
+void test_list_push_front()
+{
+	t_list * list = NULL;
+	int data1 = 42;
+	int data2 = 21;
+
+	printf("Testing \033[1;32mlist_push_front\033[0m...\n");
+
+	printf("Begin list = %p\n\n", list);
+	ft_list_push_front(&list, &data1);
+	printf("Begin list = %p (%d, %p)\n\n", list, *((int*)list->data), list->next);
+
+	ft_list_push_front(&list, &data2);
+	printf("Begin list = %p (%d, %p)\n", list, *((int*)list->data), list->next);
+	printf("Next list = %p (%d, %p)\n\n", list->next, *((int*)list->next->data), list->next->next);
+
+	free(list->next);
+	free(list);
+}
 
 int main()
 {
@@ -210,7 +229,10 @@ int main()
 	// test(ft_strdup, test_strdup);
 	// printf("\n\n");
 
-	test_atoi_base();
+	// test_atoi_base();
+	// printf("\n\n");
+
+	test_list_push_front();
 
 	return 0;
 }
