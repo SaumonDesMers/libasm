@@ -177,13 +177,14 @@ void test_atoi_base()
 	unit_test_atoi_base("101010", "01");
 }
 
+
 void test_list_push_front()
 {
+	printf("Testing \033[1;32mlist_push_front\033[0m...\n");
+
 	t_list * list = NULL;
 	int data1 = 42;
 	int data2 = 21;
-
-	printf("Testing \033[1;32mlist_push_front\033[0m...\n");
 
 	printf("Begin list = %p\n\n", list);
 	ft_list_push_front(&list, &data1);
@@ -196,6 +197,29 @@ void test_list_push_front()
 	free(list->next);
 	free(list);
 }
+
+void test_list_size()
+{
+	printf("Testing \033[1;32mlist_size\033[0m...\n");
+
+	t_list list3 = {NULL, NULL};
+	t_list list2 = {NULL, &list3};
+	t_list list1 = {NULL, &list2};
+	t_list list0 = {NULL, &list1};
+
+	t_list * begin_list = &list0;
+	int size = ft_list_size(begin_list);
+	printf("List size: %d\n", size);
+
+	begin_list = &list2;
+	size = ft_list_size(begin_list);
+	printf("List size: %d\n", size);
+
+	begin_list = NULL;
+	size = ft_list_size(begin_list);
+	printf("Empty list size: %d\n", size);
+}
+
 
 int main()
 {
@@ -233,6 +257,8 @@ int main()
 	// printf("\n\n");
 
 	test_list_push_front();
+	printf("\n");
+	test_list_size();
 
 	return 0;
 }
