@@ -9,7 +9,7 @@ ASFLAGS		:= -f elf64 -g
 
 SRC_DIR		= src
 SRCS		= $(patsubst %, $(SRC_DIR)/%, strlen.s strcpy.s strcmp.s write.s read.s strdup.s \
-				atoi_base.s)
+				atoi_base.s list_push_front.s list_size.s list_sort.s list_remove_if.s)
 
 INC_DIR 	= include
 

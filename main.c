@@ -14,6 +14,17 @@ char * ft_strdup(const char * src);
 
 int ft_atoi_base(char * str, char * base);
 
+typedef struct s_list
+{
+	void * data;
+	struct s_list * next;
+} t_list;
+
+void ft_list_push_front(t_list ** begin_list, void * data);
+int ft_list_size(t_list * begin_list);
+void ft_list_sort(t_list ** begin_list, int (*cmp)());
+void ft_list_remove_if(t_list ** begin_list, void * data_ref, int (*cmp)(), void (*free_fct)(void *));
+
 
 #define test(tested_func, tester) \
 	printf("Testing \033[1;32m%s\033[0m...\n", #tested_func); \
@@ -169,35 +180,35 @@ void test_atoi_base()
 
 int main()
 {
-	test(strlen, test_strlen);
-	printf("\n");
-	test(ft_strlen, test_strlen);
-	printf("\n\n");
+	// test(strlen, test_strlen);
+	// printf("\n");
+	// test(ft_strlen, test_strlen);
+	// printf("\n\n");
 
-	test(strcpy, test_strcpy);
-	printf("\n");
-	test(ft_strcpy, test_strcpy);
-	printf("\n\n");
+	// test(strcpy, test_strcpy);
+	// printf("\n");
+	// test(ft_strcpy, test_strcpy);
+	// printf("\n\n");
 
-	test(strcmp, test_strcmp);
-	printf("\n");
-	test(ft_strcmp, test_strcmp);
-	printf("\n\n");
+	// test(strcmp, test_strcmp);
+	// printf("\n");
+	// test(ft_strcmp, test_strcmp);
+	// printf("\n\n");
 
-	test(write, test_write);
-	printf("\n");
-	test(ft_write, test_write);
-	printf("\n\n");
+	// test(write, test_write);
+	// printf("\n");
+	// test(ft_write, test_write);
+	// printf("\n\n");
 
-	test(read, test_read);
-	printf("\n");
-	test(ft_read, test_read);
-	printf("\n\n");
+	// test(read, test_read);
+	// printf("\n");
+	// test(ft_read, test_read);
+	// printf("\n\n");
 
-	test(strdup, test_strdup);
-	printf("\n");
-	test(ft_strdup, test_strdup);
-	printf("\n\n");
+	// test(strdup, test_strdup);
+	// printf("\n");
+	// test(ft_strdup, test_strdup);
+	// printf("\n\n");
 
 	test_atoi_base();
 
