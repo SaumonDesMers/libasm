@@ -178,6 +178,28 @@ void test_atoi_base()
 }
 
 
+void print_list_int(t_list * list)
+{
+	printf("List: ");
+	while (list)
+	{
+		printf("%d -> ", *((int*)list->data));
+		list = list->next;
+	}
+	printf("NULL\n");
+}
+
+void print_list_str(t_list * list)
+{
+	printf("List: ");
+	while (list)
+	{
+		printf("%s -> ", (char*)list->data);
+		list = list->next;
+	}
+	printf("NULL\n");
+}
+
 void test_list_push_front()
 {
 	printf("Testing \033[1;32mlist_push_front\033[0m...\n");
@@ -186,13 +208,13 @@ void test_list_push_front()
 	int data1 = 42;
 	int data2 = 21;
 
-	printf("Begin list = %p\n\n", list);
+	print_list_int(list);
+
 	ft_list_push_front(&list, &data1);
-	printf("Begin list = %p (%d, %p)\n\n", list, *((int*)list->data), list->next);
+	print_list_int(list);
 
 	ft_list_push_front(&list, &data2);
-	printf("Begin list = %p (%d, %p)\n", list, *((int*)list->data), list->next);
-	printf("Next list = %p (%d, %p)\n\n", list->next, *((int*)list->next->data), list->next->next);
+	print_list_int(list);
 
 	free(list->next);
 	free(list);
@@ -202,63 +224,128 @@ void test_list_size()
 {
 	printf("Testing \033[1;32mlist_size\033[0m...\n");
 
-	t_list list3 = {NULL, NULL};
-	t_list list2 = {NULL, &list3};
-	t_list list1 = {NULL, &list2};
-	t_list list0 = {NULL, &list1};
+	int data5 = 42; t_list list5 = {&data5, NULL};
+	int data4 = 21; t_list list4 = {&data4, &list5};
+	int data3 = 84; t_list list3 = {&data3, &list4};
+	int data2 = 63; t_list list2 = {&data2, &list3};
+	int data1 = 105; t_list list1 = {&data1, &list2};
 
-	t_list * begin_list = &list0;
+	t_list * begin_list = &list1;
 	int size = ft_list_size(begin_list);
-	printf("List size: %d\n", size);
+	print_list_int(begin_list);
+	printf("List size: %d\n\n", size);
 
-	begin_list = &list2;
+	begin_list = &list3;
 	size = ft_list_size(begin_list);
-	printf("List size: %d\n", size);
+	print_list_int(begin_list);
+	printf("List size: %d\n\n", size);
 
 	begin_list = NULL;
 	size = ft_list_size(begin_list);
-	printf("Empty list size: %d\n", size);
+	print_list_int(begin_list);
+	printf("List size: %d\n", size);
+}
+
+int cmp_int(void * a, void * b)
+{
+	return (*(int*)a - *(int*)b);
+}
+
+void test_list_sort_int()
+{
+	printf("Testing \033[1;32mlist_sort\033[0m with integers...\n");
+
+	int data5 = 42; t_list list5 = {&data5, NULL};
+	int data4 = 21; t_list list4 = {&data4, &list5};
+	int data3 = 84; t_list list3 = {&data3, &list4};
+	int data2 = 63; t_list list2 = {&data2, &list3};
+	int data1 = 105; t_list list1 = {&data1, &list2};
+	t_list * begin_list = &list1;
+
+	printf("Before sorting:\n");
+	print_list_int(begin_list);
+	ft_list_sort(&begin_list, cmp_int);
+	printf("After sorting:\n");
+	print_list_int(begin_list);
+	printf("\n");
+
+	begin_list = NULL;
+	printf("Before sorting:\n");
+	print_list_int(begin_list);
+	ft_list_sort(&begin_list, cmp_int);
+	printf("After sorting:\n");
+	print_list_int(begin_list);
+	printf("\n");
+
+	begin_list = &list5;
+	printf("Before sorting:\n");
+	print_list_int(begin_list);
+	ft_list_sort(&begin_list, cmp_int);
+	printf("After sorting:\n");
+	print_list_int(begin_list);
+}
+
+void test_list_sort_str()
+{
+	printf("Testing \033[1;32mlist_sort\033[0m with strings...\n");
+
+	char * data5 = "Hello"; t_list list5 = {data5, NULL};
+	char * data4 = "World"; t_list list4 = {data4, &list5};
+	char * data3 = "Yes"; t_list list3 = {data3, &list4};
+	char * data2 = "no"; t_list list2 = {data2, &list3};
+	char * data1 = "Foo"; t_list list1 = {data1, &list2};
+	t_list * begin_list = &list1;
+
+	printf("Before sorting:\n");
+	print_list_str(begin_list);
+	ft_list_sort(&begin_list, strcmp);
+	printf("After sorting:\n");
+	print_list_str(begin_list);
 }
 
 
 int main()
 {
-	// test(strlen, test_strlen);
-	// printf("\n");
-	// test(ft_strlen, test_strlen);
-	// printf("\n\n");
+	test(strlen, test_strlen);
+	printf("\n");
+	test(ft_strlen, test_strlen);
+	printf("\n\n");
 
-	// test(strcpy, test_strcpy);
-	// printf("\n");
-	// test(ft_strcpy, test_strcpy);
-	// printf("\n\n");
+	test(strcpy, test_strcpy);
+	printf("\n");
+	test(ft_strcpy, test_strcpy);
+	printf("\n\n");
 
-	// test(strcmp, test_strcmp);
-	// printf("\n");
-	// test(ft_strcmp, test_strcmp);
-	// printf("\n\n");
+	test(strcmp, test_strcmp);
+	printf("\n");
+	test(ft_strcmp, test_strcmp);
+	printf("\n\n");
 
-	// test(write, test_write);
-	// printf("\n");
-	// test(ft_write, test_write);
-	// printf("\n\n");
+	test(write, test_write);
+	printf("\n");
+	test(ft_write, test_write);
+	printf("\n\n");
 
-	// test(read, test_read);
-	// printf("\n");
-	// test(ft_read, test_read);
-	// printf("\n\n");
+	test(read, test_read);
+	printf("\n");
+	test(ft_read, test_read);
+	printf("\n\n");
 
-	// test(strdup, test_strdup);
-	// printf("\n");
-	// test(ft_strdup, test_strdup);
-	// printf("\n\n");
+	test(strdup, test_strdup);
+	printf("\n");
+	test(ft_strdup, test_strdup);
+	printf("\n\n");
 
-	// test_atoi_base();
-	// printf("\n\n");
+	test_atoi_base();
+	printf("\n\n");
 
 	test_list_push_front();
-	printf("\n");
+	printf("\n\n");
 	test_list_size();
+	printf("\n\n");
+	test_list_sort_int();
+	printf("\n\n");
+	test_list_sort_str();
 
 	return 0;
 }
