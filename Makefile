@@ -1,7 +1,7 @@
 NAME		= libasm.a
 TESTER_NAME = libasm_test
 
-CC			:= clang
+CC			:= gcc
 CFLAGS		:= -Wall -Wextra -Werror -z noexecstack -g3
 AR			:= ar rcs
 AS			:= nasm
