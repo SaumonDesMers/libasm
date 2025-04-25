@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
+#define LOREM_IPSUM "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit. Ut velit mauris, egestas sed, gravida nec, ornare ut, mi. Aenean ut orci vel massa suscipit pulvinar. Nulla sollicitudin. Fusce varius, ligula non tempus aliquam, nunc turpis ullamcorper nibh, in tempus sapien eros vitae ligula. Pellentesque rhoncus nunc et augue. Integer id felis. Curabitur aliquet pellentesque diam. Integer quis metus vitae elit lobortis egestas. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi vel erat non mauris convallis vehicula. Nulla et sapien. Integer tortor tellus, aliquam faucibus, convallis id, congue eu, quam. Mauris ullamcorper felis vitae erat. Proin feugiat, augue non elementum posuere, metus purus iaculis lectus, et tristique ligula justo vitae magna. Aliquam convallis sollicitudin purus. Praesent aliquam, enim at fermentum mollis, ligula massa adipiscing nisl, ac euismod nibh nisl eu lectus. Fusce vulputate sem at sapien. Vivamus leo. Aliquam euismod libero eu enim. Nulla nec felis sed leo placerat imperdiet. Aenean suscipit nulla in justo. Suspendisse cursus rutrum augue. Nulla tincidunt tincidunt mi. Curabitur iaculis, lorem vel rhoncus faucibus, felis magna fermentum augue, et ultricies lacus lorem varius purus. Curabitur eu amet."
+
 size_t ft_strlen(const char *);
 char *ft_strcpy(char * dest, const char * src);
 int ft_strcmp(const char * s1, const char * s2);
@@ -31,129 +33,106 @@ void ft_list_remove_if(t_list ** begin_list, void * data_ref, int (*cmp)(), void
 	tester(tested_func);
 
 
+void unit_test_strlen(size_t (*test_func)(const char *), const char * str)
+{
+	int len = test_func(str);
+	printf("Length of '%s' is %d\n", str, len);
+}
+
 void test_strlen(size_t (*test_func)(const char *))
 {
-	{
-		char *str = "";
-		int len = test_func(str);
-		printf("Length of '%s' is %d\n", str, len);
-	}
-	{
-		char *str = "Hello, World!";
-		int len = test_func(str);
-		printf("Length of '%s' is %d\n", str, len);
-	}
-	{
-		char *str = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit. Ut velit mauris, egestas sed, gravida nec, ornare ut, mi. Aenean ut orci vel massa suscipit pulvinar. Nulla sollicitudin. Fusce varius, ligula non tempus aliquam, nunc turpis ullamcorper nibh, in tempus sapien eros vitae ligula. Pellentesque rhoncus nunc et augue. Integer id felis. Curabitur aliquet pellentesque diam. Integer quis metus vitae elit lobortis egestas. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi vel erat non mauris convallis vehicula. Nulla et sapien. Integer tortor tellus, aliquam faucibus, convallis id, congue eu, quam. Mauris ullamcorper felis vitae erat. Proin feugiat, augue non elementum posuere, metus purus iaculis lectus, et tristique ligula justo vitae magna. Aliquam convallis sollicitudin purus. Praesent aliquam, enim at fermentum mollis, ligula massa adipiscing nisl, ac euismod nibh nisl eu lectus. Fusce vulputate sem at sapien. Vivamus leo. Aliquam euismod libero eu enim. Nulla nec felis sed leo placerat imperdiet. Aenean suscipit nulla in justo. Suspendisse cursus rutrum augue. Nulla tincidunt tincidunt mi. Curabitur iaculis, lorem vel rhoncus faucibus, felis magna fermentum augue, et ultricies lacus lorem varius purus. Curabitur eu amet.";
-		int len = test_func(str);
-		printf("Length of '%s' is %d\n", str, len);
-	}
+	unit_test_strlen(test_func, "");
+	unit_test_strlen(test_func, "Hello, World!");
+	unit_test_strlen(test_func, LOREM_IPSUM);
+}
+
+
+void unit_test_strcpy(char *(*test_func)(char *, const char *), char * dest, const char * src)
+{
+	test_func(dest, src);
+	printf("Copied string: '%s'\n", dest);
 }
 
 void test_strcpy(char *(*test_func)(char *, const char *))
 {
-	char dest[50];
-	const char *src = "Hello, World!";
-	test_func(dest, src);
-	printf("Copied string: %s\n", dest);
+	char dest[2500];
+	unit_test_strcpy(test_func, dest, "");
+	unit_test_strcpy(test_func, dest, "Hello, World!");
+	unit_test_strcpy(test_func, dest, LOREM_IPSUM);
+}
+
+
+void unit_test_strcmp(int (*test_func)(const char *, const char *), const char * str1, const char * str2)
+{
+	int cmp = test_func(str1, str2);
+	printf("Comparing '%s' and '%s': %d\n", str1, str2, cmp);
 }
 
 void test_strcmp(int (*test_func)(const char *, const char *))
 {
-	const char *str = "Hello, World!";
-	const char *same_str = "Hello, World!";
-	const char *diff_str = "Hello, Universe!";
-	int cmp = test_func(str, same_str);
-	printf("Comparing '%s' and '%s': %d\n", str, same_str, cmp);
-	cmp = test_func(str, diff_str);
-	printf("Comparing '%s' and '%s': %d\n", str, diff_str, cmp);
+	unit_test_strcmp(test_func, "", "");
+	unit_test_strcmp(test_func, "Hello, World!", "");
+	unit_test_strcmp(test_func, "", "Hello, World!");
+	unit_test_strcmp(test_func, "Hello, World!", "Hello, World!");
+	unit_test_strcmp(test_func, "Hello, World!", "Hello, Universe!");
+}
+
+
+void unit_test_write(ssize_t (*test_func)(int, const void *, size_t), int fd, const char * str, size_t len)
+{
+	errno = 0;
+	ssize_t ret = test_func(fd, str, len);
+	int err = errno;
+	printf("Wrote %ld bytes to fd %d with error code %d (%s)\n", ret, fd, err, strerror(err));
 }
 
 void test_write(ssize_t (*test_func)(int, const void *, size_t))
 {
-	const char *str = "Hello, World!\n";
-	errno = 0;
-	int ret = test_func(1, str, 14);
-	int err = errno;
-	printf("Wrote %d bytes to stdout with error code %d (%s)\n", ret, err, strerror(err));
+	unit_test_write(test_func, 1, "Hello, World!\n", 14);
 
 	int fd = open("test.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-	{
-		perror("Failed to open file");
-		return;
-	}
-	errno = 0;
-	ret = test_func(fd, str, 13);
-	err = errno;
-	printf("Wrote %d bytes to file with error code %d (%s)\n", ret, err, strerror(err));
+	if (fd < 0) return;
+	unit_test_write(test_func, fd, "Hello, World!", 13);
 	close(fd);
 
-	errno = 0;
-	ret = test_func(fd, NULL, 14);
-	err = errno;
-	printf("Wrote %d bytes to NULL buffer with error code %d (%s)\n", ret, err, strerror(err));
-
-	errno = 0;
-	ret = test_func(-1, str, 14);
-	err = errno;
-	printf("Wrote %d bytes to invalid fd with error code %d (%s)\n", ret, err, strerror(err));
+	unit_test_write(test_func, 1, NULL, 42);
+	unit_test_write(test_func, -1, "Hello, World!", 13);
 
 	fd = open("test.txt", O_RDONLY);
-	if (fd < 0)
-	{
-		perror("Failed to open file");
-		return;
-	}
-	errno = 0;
-	ret = test_func(fd, str, 14);
-	err = errno;
-	printf("Wrote %d bytes to read-only file with error code %d (%s)\n", ret, err, strerror(err));
+	if (fd < 0) return;
+	unit_test_write(test_func, fd, "Hello, World!", 13);
 	close(fd);
+}
+
+
+void unit_test_read(ssize_t (*test_func)(int, void *, size_t), int fd, char * buf, size_t len)
+{
+	errno = 0;
+	ssize_t ret = test_func(fd, buf, len);
+	int err = errno;
+	if (ret > 0)
+		buf[ret] = '\0';
+	else
+		buf[0] = '\0';
+	printf("Read %ld bytes from fd %d with error code %d (%s)\n", ret, fd, err, strerror(err));
 }
 
 void test_read(ssize_t (*test_func)(int, void *, size_t))
 {
 	char buf[50];
 	int fd = open("test.txt", O_RDONLY);
-	if (fd < 0)
-	{
-		perror("Failed to open file");
-		return;
-	}
-	buf[0] = '\0';
-	errno = 0;
-	ssize_t ret = test_func(fd, buf, sizeof(buf));
-	buf[ret] = '\0';
-	int err = errno;
-	printf("Read '%s' (%ld bytes) from file with error code %d (%s)\n", buf, ret, err, strerror(err));
+	if (fd < 0) return;
+	unit_test_read(test_func, fd, buf, sizeof(buf));
 	close(fd);
 	
-	buf[0] = '\0';
-	errno = 0;
-	ret = test_func(fd, NULL, sizeof(buf));
-	err = errno;
-	printf("Read '%s' (%ld bytes) from NULL buffer with error code %d (%s)\n", buf, ret, err, strerror(err));
-
-	buf[0] = '\0';
-	errno = 0;
-	ret = test_func(-1, buf, sizeof(buf));
-	err = errno;
-	printf("Read '%s' (%ld bytes) from invalid fd with error code %d (%s)\n", buf, ret, err, strerror(err));
+	unit_test_read(test_func, -1, buf, sizeof(buf));
 
 	fd = open("test.txt", O_WRONLY, 0644);
-	if (fd < 0)
-	{
-		perror("Failed to open file");
-		return;
-	}
-	buf[0] = '\0';
-	errno = 0;
-	ret = test_func(fd, buf, sizeof(buf));
-	err = errno;
-	printf("Read '%s' (%ld bytes) from write-only file with error code %d (%s)\n", buf, ret, err, strerror(err));
+	if (fd < 0) return;
+	unit_test_read(test_func, fd, buf, sizeof(buf));
 	close(fd);
 }
+
 
 void test_strdup(char *(*test_func)(const char *))
 {
@@ -181,10 +160,12 @@ void test_atoi_base()
 	printf("Testing \033[1;32matoi_base\033[0m...\n");
 	unit_test_atoi_base(NULL, "0123456789");
 	unit_test_atoi_base("42", NULL);
+	unit_test_atoi_base("42", "");
 	unit_test_atoi_base("42", "+");
 	unit_test_atoi_base("42", "-");
 	unit_test_atoi_base("42", "oo");
 	unit_test_atoi_base("42", "v");
+	unit_test_atoi_base("", "0123456789");
 	unit_test_atoi_base("42", "0123456789");
 	unit_test_atoi_base("101010", "01");
 }
@@ -371,7 +352,7 @@ void test_list_remove_if_int()
 	printf("Remove all elements:\n");
 	printf("Before removing:\n");
 	print_list_int(begin_list);
-	// ft_list_remove_if(&begin_list, &data1, cmp_int, NULL);
+	ft_list_remove_if(&begin_list, &data1, cmp_int, NULL);
 	printf("After removing:\n");
 	print_list_int(begin_list);
 
