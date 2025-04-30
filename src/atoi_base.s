@@ -97,7 +97,6 @@ number_loop_start:
 	cmp BYTE [rdi], 0		; check end of str
 	je end
 
-	imul rax, rcx			; multiply the result by the base lenght
 
 	mov r10, r9				; get the hashtable start
 	mov r12, 0
@@ -106,6 +105,7 @@ number_loop_start:
 	cmp BYTE [r10], 0		; check if stored value is zero
 	je end					; if it's zero, that means this character is not part of the base so it's the end
 
+	imul rax, rcx			; multiply the result by the base lenght
 	add al, BYTE [r10]		; add the next number to the result
 	dec rax
 
